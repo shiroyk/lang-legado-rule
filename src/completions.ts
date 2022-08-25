@@ -15,7 +15,7 @@ const jsExtensionsCompletions: Completion[] = [
   {
     label: 'webView',
     type: 'function',
-    info: (completion: Completion) => {
+    info: () => {
       const pre = document.createElement('pre');
       pre.innerHTML =
         '使用webView访问网络\n' +
@@ -192,13 +192,14 @@ const completePropertyAfter = ["PropertyName", ".", "?."]
 const dontCompleteIn = ["TemplateString", "LineComment", "BlockComment",
                         "VariableDefinition", "PropertyDefinition"]
 
-function completeProperties(from: number, object: Object) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function completeProperties(from: number, object: any) {
   let options = []
   
   if (object instanceof Array) {
     options = object;
   } else {
-    for (let name in object) {
+    for (const name in object) {
       options.push({
         label: name,
         type: typeof object[name] == "function" ? "function" : "variable"
@@ -214,16 +215,17 @@ function completeProperties(from: number, object: Object) {
 }
 
 export function javascriptComplete(context: CompletionContext) {
-  let nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
+  const nodeBefore = syntaxTree(context.state).resolveInner(context.pos, -1)
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   const ParentName = nodeBefore.context?.parent?.parent?.name;
   
   if (completePropertyAfter.includes(nodeBefore.name) &&
       nodeBefore.parent?.name == "MemberExpression") {
-    let object = nodeBefore.parent.getChild("Expression")
+    const object = nodeBefore.parent.getChild("Expression")
     if (object?.name == "VariableName") {
-      let from = /\./.test(nodeBefore.name) ? nodeBefore.to : nodeBefore.from
-      let variableName = context.state.sliceDoc(object.from, object.to)
+      const from = /\./.test(nodeBefore.name) ? nodeBefore.to : nodeBefore.from
+      const variableName = context.state.sliceDoc(object.from, object.to)
       
       if (ParentName == "JavaScriptKeyword") {
         if (typeof window[variableName] == "object")

@@ -10,7 +10,7 @@ const ruleParser = buildParser(grammar);
 
 export const ruleLanguage = LRLanguage.define({
   parser: ruleParser.configure({
-    wrap: parseMixed((node, input) => {
+    wrap: parseMixed((node) => {
       if (node.name == 'RuleBracket') {
         return {
           parser: javascriptLanguage.parser,
