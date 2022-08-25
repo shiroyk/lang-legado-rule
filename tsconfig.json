@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "lib": ["ES6", "DOM"],
+    "types": ["node"],
+    "target": "es6",
+    "moduleResolution": "node",
+    "declaration": true,
+    "declarationDir": "dist",
+    "emitDeclarationOnly": true
+  },
+  "include": ["./src/**/*", "demo/index.ts"]
+}
