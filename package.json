@@ -11,7 +11,7 @@
     "dev": "parcel demo/index.html --dist-dir demo/dist",
     "lint": "eslint --fix 'src/**/*.ts'",
     "build": "rollup -c rollup.config.js",
-    "build:demo": "parcel build demo/index.html --dist-dir demo/dist && gh-pages -d demo/dist"
+    "build:demo": "parcel build demo/index.html --public-url /lang-legado-rule --dist-dir demo/dist && gh-pages -d demo/dist"
   },
   "exports": {
     "import": "./dist/index.js",
