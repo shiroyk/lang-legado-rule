@@ -8,5 +8,6 @@
     "declarationDir": "dist",
     "emitDeclarationOnly": true
   },
-  "include": ["./src/**/*", "demo/index.ts"]
+  "include": ["./src/**/*", "demo/index.ts"],
+  "exclude": ["node_modules", "dist"]
 }

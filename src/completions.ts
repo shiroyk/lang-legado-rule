@@ -1,7 +1,8 @@
 import { syntaxTree } from '@codemirror/language';
 import {
   Completion,
-  CompletionContext
+  CompletionContext,
+  CompletionResult
 } from '@codemirror/autocomplete';
 
 const jsExtensionsCompletions: Completion[] = [
@@ -192,8 +193,7 @@ const completePropertyAfter = ["PropertyName", ".", "?."]
 const dontCompleteIn = ["TemplateString", "LineComment", "BlockComment",
                         "VariableDefinition", "PropertyDefinition"]
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function completeProperties(from: number, object: any) {
+function completeProperties<T>(from: number, object: T): CompletionResult {
   let options = []
   
   if (object instanceof Array) {

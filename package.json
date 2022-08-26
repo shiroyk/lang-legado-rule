@@ -2,11 +2,16 @@
   "name": "lang-legado-rule",
   "version": "1.0.0",
   "description": "Legado rule support for the CodeMirror code editor",
-  "main": "dist/index.cjs",
+  "main": "dist/index.js",
+  "module": "dist/index.min.js",
+  "types": "dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "dev": "parcel demo/index.html --dist-dir dist/demo",
-    "build": "rm -rf dist && rollup -c rollup.config.js && parcel build demo/index.html --dist-dir dist/demo"
+    "prebuild": "rm -rf dist && rm -rf demo/dist",
+    "dev": "parcel demo/index.html --dist-dir demo/dist",
+    "lint": "eslint --fix 'src/**/*.ts'",
+    "build": "rollup -c rollup.config.js",
+    "build:demo": "parcel build demo/index.html --dist-dir demo/dist && gh-pages -d demo/dist"
   },
   "exports": {
     "import": "./dist/index.js",
@@ -17,8 +22,6 @@
     "main": false,
     "types": false
   },
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
   "author": "Shiroyk <kumoocat@gmail.com>",
   "license": "GPL",
   "devDependencies": {
@@ -33,6 +36,7 @@
     "@typescript-eslint/eslint-plugin": "^5.35.1",
     "@typescript-eslint/parser": "^5.35.1",
     "eslint": "^8.22.0",
+    "gh-pages": "^4.0.0",
     "parcel": "^2.7.0",
     "process": "^0.11.10",
     "rollup": "^2.52.2",
@@ -46,6 +50,7 @@
     "@lezer/generator": "^1.1.1",
     "@lezer/highlight": "^1.0.0"
   },
+  "homepage": "https://shiroyk.github.io/lang-legado-rule",
   "repository": {
     "type": "git",
     "url": "https://github.com/shiroyk/lang-legado-rule.git"
