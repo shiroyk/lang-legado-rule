@@ -5,6 +5,9 @@
 ![demo](demo/demo.gif)
 
 ## Usage
+```
+npm install lang-legado-rule
+```
 
 ```typescript
 import { autocompletion } from '@codemirror/autocomplete';
