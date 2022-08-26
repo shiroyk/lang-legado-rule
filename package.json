@@ -50,6 +50,10 @@
     "@lezer/generator": "^1.1.1",
     "@lezer/highlight": "^1.0.0"
   },
+  "keywords": [
+    "Legado",
+    "CodeMirror"
+  ],
   "homepage": "https://shiroyk.github.io/lang-legado-rule",
   "repository": {
     "type": "git",
