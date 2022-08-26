@@ -1,6 +1,6 @@
 {
   "name": "lang-legado-rule",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Legado rule support for the CodeMirror code editor",
   "main": "dist/index.js",
   "module": "dist/index.min.js",

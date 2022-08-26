@@ -2,7 +2,7 @@ export default String.raw`
 @top Rule { Rules JavaScriptKeyword? }
 
 Rules { 
-  LogicOperate? (JsoupRule | JSONPathRule | XPathRule) Rules?
+  (JsoupRule | JsoupCSSRule | JSONPathRule | XPathRule)+ Regex? (LogicOperate Rules)?
 }
 JavaScriptTag { "<js>" Word* "</js>" }
 RuleBracket { "{{" Word* "}}" }
@@ -17,9 +17,12 @@ JsoupRule {
     ( kw<"text"> | kw<"textNodes"> |
       kw<"ownText"> | kw<"html"> | kw<"all"> |
       kw<"href"> | kw<"src">
-    ) (Regex | JavaScriptTag | RuleBracket)?
-  } |
-  JsoupCSSStatement { cssPrefix (Word CSSOperate+?)+ }
+    ) (JavaScriptTag | RuleBracket)?
+  }
+}
+
+JsoupCSSRule { 
+  cssPrefix ("(" Int ")" | "," | ":" | "~" | "#" | ArithOperate | dot | Word)+
 }
 
 JSONPathRule {
@@ -27,12 +30,7 @@ JSONPathRule {
 }
 
 XPathRule {
-  xPathPrefix (Word PathSelect?)+
-}
-
-CSSOperate { 
-  "(" Int ")" | "," |  ":" | "~" | "#" | 
-  ArithOperate | dot
+  xPathPrefix (ArithOperate? Word PathSelect? "/")+
 }
 
 PathSelect {
@@ -51,11 +49,13 @@ kw<key> { @specialize[@name={key}]<Word, key> }
 
   Int { "-"? @digit+ }
 
-  Regex { "##" (![/\\\n[] | "\\" ![\n] | "[" (![\n\\\]] | "\\" ![\n])* "]")+ "##" Word? "###"? }
+  Regex { "##" (![\n])* "##" (![\n])* "###"? }
 
   dot { "." }
 
   Not { "!" }
+
+  "#" ":" "/"
 
   ArithOperate { 
     "+" | "-" | "*" | 
@@ -68,13 +68,13 @@ kw<key> { @specialize[@name={key}]<Word, key> }
 
   At { "@" }
 
-  xPathPrefix { "@XPath:" | "//" }
+  xPathPrefix { "@" $[xX] $[pP] $[aA] $[tT] $[hH] ":" | "//" }
 
-  cssPrefix { "@css:" }
+  cssPrefix { "@" $[cC] $[sS] $[sS] ":" }
 
-  jsonPathPrefix { "$." | "@json:" }
+  jsonPathPrefix { "$." | "@" $[jJ] $[sS] $[oO] $[nN] ":" }
 
-  JavaScriptKeyword { "@js:" _+ }
+  JavaScriptKeyword { "@" $[jJ] $[sS] ":" _+ }
 
   spaces[@export] { $[\u0009 \u000b\u00a0\u1680\u2000-\u200a\u202f\u205f\u3000\ufeff]+ }
 
@@ -83,6 +83,8 @@ kw<key> { @specialize[@name={key}]<Word, key> }
   @precedence { Int, ArithOperate }
 
   @precedence { spaces, newline, Word }
+
+  @precedence { "#", ":", Regex }
 
   @precedence { JavaScriptKeyword, cssPrefix, jsonPathPrefix, At, Word }
 

@@ -43,7 +43,7 @@ export const ruleLanguage = LRLanguage.define({
         JSONPathRule: t.propertyName,
         XPathRule: t.operatorKeyword,
         'JavaScriptTag JavaScriptKeyword RuleBracket ArithOperate': t.atom,
-        'JsoupCSSStatement CSSOperate PathSelect': t.inserted,
+        'JsoupCSSRule PathSelect LogicOperate': t.inserted,
       }),
     ],
   }),
