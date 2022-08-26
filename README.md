@@ -1,5 +1,5 @@
 # lang-legado-rule
-## Legado rule support for the CodeMirror code editor
+## [Legado](https://github.com/gedoor/legado) rule support for the CodeMirror code editor
 ![NPM](https://img.shields.io/npm/l/lang-legado-rule) ![npm](https://img.shields.io/npm/v/lang-legado-rule)
 
 ![demo](demo/demo.gif)
