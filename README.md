@@ -1,5 +1,7 @@
 # lang-legado-rule
 
+![demo](demo/demo.gif)
+
 ## Project Setup
 
 ```sh
