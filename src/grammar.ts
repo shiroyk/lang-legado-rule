@@ -2,31 +2,29 @@ export default String.raw`
 @top Rule { Rules JavaScriptKeyword? }
 
 Rules { 
-  (JsoupRule | JsoupCSSRule | JSONPathRule | XPathRule)+ Regex? (LogicOperate Rules)?
+  (JsoupRule | JsoupCSSRule | JSONPathRule | XPathRule | JavaScriptTag | RuleBracket)+ Regex? (LogicOperate Rules)?
 }
-JavaScriptTag { "<js>" Word* "</js>" }
-RuleBracket { "{{" Word* "}}" }
 
 JsoupRule {
-  At?
-  JsoupTypeStatement { 
-    ( kw<"class"> | kw<"id"> | kw<"tag"> | kw<"children">) 
-    dot Word (dot? PathSelect)? (JavaScriptTag | RuleBracket)?
+  "@"?
+  JsoupTypeStatement {
+    ( kw<"children"> | kw<"class"> | kw<"tag"> | kw<"id"> | kw<"text">) 
+    "." Word ("."? PathSelect)?
   } |
   JsoupContentStatement {
     ( kw<"text"> | kw<"textNodes"> |
       kw<"ownText"> | kw<"html"> | kw<"all"> |
       kw<"href"> | kw<"src">
-    ) (JavaScriptTag | RuleBracket)?
+    )
   }
 }
 
 JsoupCSSRule { 
-  cssPrefix ("(" Int ")" | "," | ":" | "~" | "#" | ArithOperate | dot | Word)+
+  cssPrefix ("(" Int ")" | "," | ":" | "~" | "#" | "." | ArithOperate | Word)+
 }
 
 JSONPathRule {
-  jsonPathPrefix (Word (dot? PathSelect)?)+
+  jsonPathPrefix (Word ("."? PathSelect)?)+
 }
 
 XPathRule {
@@ -34,7 +32,7 @@ XPathRule {
 }
 
 PathSelect {
-  "[" ( Word | Int | At | Not | ArithOperate | dot | ":" | "(" | ")" )* "]"
+  "[" ( Word | Int | ArithOperate | "@" | "?" | "!" | "." | ":" | "(" | ")" )* "]"
 }
 
 kw<key> { @specialize[@name={key}]<Word, key> }
@@ -49,30 +47,28 @@ kw<key> { @specialize[@name={key}]<Word, key> }
 
   Int { "-"? @digit+ }
 
-  Regex { "##" (![\n])* "##" (![\n])* "###"? }
+  Regex { "##" (![\n])* "##"? (![\n])* "###"? }
 
-  dot { "." }
-
-  Not { "!" }
-
-  "#" ":" "/"
+  "#" ":" "@" "!" "." "?"
+  "[" "]" "(" ")" "{" "}"
 
   ArithOperate { 
-    "+" | "-" | "*" | 
-    "/" | "%" | "=" | 
-    "*" | "**" | ">" | 
-    "<" | "?" 
+    "+" | "-" | "/" | 
+    "%" | "=" | "*" | 
+    "**" | ">" | "<"
   }
 
   LogicOperate { "||" | "&&" | "%%" }
 
-  At { "@" }
+  JavaScriptTag { "<js>" _+ "</js>" }
+  
+  RuleBracket { "{{" (![\n])* "}}" }
 
   xPathPrefix { "@" $[xX] $[pP] $[aA] $[tT] $[hH] ":" | "//" }
 
   cssPrefix { "@" $[cC] $[sS] $[sS] ":" }
 
-  jsonPathPrefix { "$." | "@" $[jJ] $[sS] $[oO] $[nN] ":" }
+  jsonPathPrefix { "$." | "$[" | "@" $[jJ] $[sS] $[oO] $[nN] ":" }
 
   JavaScriptKeyword { "@" $[jJ] $[sS] ":" _+ }
 
@@ -86,7 +82,7 @@ kw<key> { @specialize[@name={key}]<Word, key> }
 
   @precedence { "#", ":", Regex }
 
-  @precedence { JavaScriptKeyword, cssPrefix, jsonPathPrefix, At, Word }
+  @precedence { JavaScriptKeyword, cssPrefix, jsonPathPrefix, xPathPrefix, "@", Word }
 
 }
 

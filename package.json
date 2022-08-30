@@ -1,6 +1,6 @@
 {
   "name": "lang-legado-rule",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Legado rule support for the CodeMirror code editor",
   "main": "dist/index.js",
   "module": "dist/index.min.js",
@@ -8,7 +8,7 @@
   "type": "module",
   "scripts": {
     "prebuild": "rm -rf dist && rm -rf demo/dist",
-    "dev": "parcel demo/index.html --dist-dir demo/dist",
+    "dev": "npm run prebuild && parcel demo/index.html --dist-dir demo/dist",
     "lint": "eslint --fix 'src/**/*.ts'",
     "build": "rollup -c rollup.config.js",
     "build:demo": "parcel build demo/index.html --public-url /lang-legado-rule --dist-dir demo/dist && gh-pages -d demo/dist"
