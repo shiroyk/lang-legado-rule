@@ -3,11 +3,13 @@
     "lib": ["ES6", "DOM"],
     "types": ["node"],
     "target": "es6",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
     "moduleResolution": "node",
     "declaration": true,
     "declarationDir": "dist",
     "emitDeclarationOnly": true
   },
-  "include": ["./src/**/*", "demo/index.ts"],
+  "include": ["./src/**/*", "demo/index.ts", "rollup.config.ts"],
   "exclude": ["node_modules", "dist"]
 }
