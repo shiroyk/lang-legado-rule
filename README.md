@@ -17,7 +17,7 @@ import { EditorView, highlightActiveLine, lineNumbers, keymap } from '@codemirro
 import { rule } from 'lang-legado-rule'
 import { standardKeymap, history, historyKeymap } from '@codemirror/commands';
 
-window["view"] = new EditorView({
+new EditorView({
   parent: document.getElementById('editor'),
   state: EditorState.create({
     doc: 'class.app-0.-11@tag.li[!1:2]@tag.span[-1,10]<js>let a = 1;a = 2;</js>@text##\\d[a-z]##',
